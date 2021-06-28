@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang='fr'>
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/reset.css">
+<title>Fil ROuge</title>
+</head>
+<body>
+    <header>
+        <img src="/assets/logo_site.svg" alt="logo touit site internet">
+        <p>Touit</p>
+        <input class="search_bar" type="text" placeholder="Rechercher un touit">
+          <nav>
+          </nav>
+    </header>
+    <main>
+        <section class="section_top">
+            <form id="form_add_touit" class="form_send_data">
+                <h2>Ajoute un Touit</h2>
+                <label class="inp_label" for="nickname">
+                    Pseudo 
+                    <input required class="style_inp" type="text"  minlength="3"  maxlength="16" name="name" id="inp_nickname" placeholder="Pseudo"> 
+                </label>
+                <label class="inp_label" for="text_area_send">
+                    Message
+                    <textarea required class="style_inp" minlength="3" maxlength="256" name="message" id="inp_text_area_send_message" placeholder="message"></textarea>
+                </label>
+                <button type="submit">Envoyer</button>
+            </form>
+        </section>
+        <!-- container touit -->
+        <section>
+            <ul class="cards_list_container">
+                <!-- <li class="card_container">
+                    <article class="card">
+                        <div class="user_infos">
+                            <img class="user_picture" src="https://picsum.photos/50" alt="image de profile">
+                            <div class="user_name_info_container">
+                                <p class="username">John Doe</p>
+                                <p class="touit_date">16-02-4521</p>
+                            </div>
+                        </div>
+                        <p class="card_message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla consequuntur tenetur ex natus iusto, quasi expedita facilis saepe fugit minima?</p>
+                        <img class="touit_img" src="https://picsum.photos/300" alt="image touit">
+                        <button  class="text_icon"><img class="icon_like" src="/assets/like.svg" alt="likes">10</button>
+                        <button  class="text_icon"><img class="icon_comment" src="/assets/comment.svg" alt="comments_count">20</button>
+                    </article>
+                </li> -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+    </footer>
+    <script src="/js/card.js"></script>
+</body>
+</html>
