@@ -7,6 +7,7 @@ class Card{
         this.likes = props.likes;
         this.comments_count = props.comments_count;
         this.ip = props.ip;
+        this.liked = false;
     }
     generateHtml(){
         const li = document.createElement("li"),
@@ -19,10 +20,19 @@ class Card{
         card_message= document.createElement("p"),
         touit_img=document.createElement("img"),
         text_icon = document.createElement("button"),
+            icon_text = document.createElement("span"),
             icon_like = document.createElement("img"),
         text_icon_com = document.createElement("button"),
+            icon_text_com = document.createElement("span"),
             icon_comment = document.createElement("img");
-        // SET CLASS'S
+
+        // ==== EVENTS ======
+        (()=>{
+            text_icon.addEventListener('click',(e)=>{
+                this.likeComment(icon_text,icon_like)
+            })
+        })();
+        // ==== SET CLASS'S ====
         (()=>{
             li.className = "card_container";
             article.className = "card";
@@ -38,7 +48,7 @@ class Card{
             text_icon_com.className = "text_icon";
             icon_comment.className = "icon_comment";
         })();
-        // APPEND ELEMENTS
+        // ==== APPEND ELEMENTS ====
         (()=>{
             li.appendChild(article)
                 article.appendChild(user_infos)
@@ -54,57 +64,65 @@ class Card{
                 article.appendChild(touit_img)
                     touit_img.src = "https://picsum.photos/300"+(Math.random()*5).toFixed(0)
                 article.appendChild(text_icon)
-                    text_icon.innerText = this.likes
+                    icon_text.innerText = this.likes
                     text_icon.appendChild(icon_like)
+                    text_icon.appendChild(icon_text)
                     icon_like.src = "/assets/like.svg"
                     text_icon.alt = "icn like"
                 article.appendChild(text_icon_com)
-                    text_icon_com.innerText = this.comments_count
+                icon_text_com.innerText = this.comments_count
                     text_icon_com.appendChild(icon_comment)
+                    text_icon_com.appendChild(icon_text_com)
                     icon_comment.src = "/assets/comment.svg"
         })();
         return li;
     }
-    likeComment(){
-        
+    likeComment(element,button){
+        let xhr = new XMLHttpRequest()
+        xhr.onreadystatechange = ()=>{
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                try {
+                    console.log(JSON.parse(xhr.responseText).success);
+                    if (JSON.parse(xhr.responseText).success === true && this.liked === false) {
+                        this.likes+=1;
+                        element.innerText = this.likes;
+                        console.log(button.className += " clicked");
+                        this.liked = true;
+                    }else{
+                        console.error("je ne peux pas ajouter le like");
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+        const i = new FormData()
+            i.append("message_id",this.id)
+        xhr.open("PUT","http://touiteur.cefim-formation.org/likes/send")
+        xhr.send(i)
     }
 }
 
-
-const list = [{
-    id:"15561651",
-    name:"Jhon Doe",
-    message:"kzrop kez3232 k^prkez ^pk z^pk êpzk^p zrek^pr k^pzk ^pkze^p kerz^pk",
-    ts:"20-02-2021",
-    likes:202,
-    comments_count:19,
-    ip:"10.15610205"
-},{
-    id:"3213143243",
-    name:"Sarah Doe",
-    message:"kzrop dspq sdlpqzk^p zrek^pr k^pzk ^pkze^p kerz^pk",
-    ts:"20-02-2021",
-    likes:240,
-    comments_count:1,
-    ip:"10.15610205"
-},{
-    id:"4446467897",
-    name:"Jerome Salmon",
-    message:"kzrop kezk roezk rokez ôrkez^p kr^pz k^prkez ^pk z^pk êpzk^p zrek^pr k^pzk ^pkze^p kerz^pk",
-    ts:"20-02-2021",
-    likes:240,
-    comments_count:32,
-    ip:"10.15610205"
-},{
-    id:"32",
-    name:"Kevin",
-    message:"dsqds ;dpsqk dpsk pdksqp lkpk",
-    ts:"20-02-2021",
-    likes:1,
-    comments_count:6,
-    ip:"10.15610205"
-},]
-
+class TopWord{
+    constructor(props){
+        this.name=props.name;
+        this.nb=props.nb;
+    }
+    generateHtml(){
+        const btn = document.createElement('button'),
+            nb = document.createElement('span');
+        btn.innerText = this.name;
+        btn.className = "btn_top_trend";
+        nb.innerText = this.nb;
+        nb.className = "nb_top_trend";
+        // ==== APPEND ====
+        (()=>{
+            btn.appendChild(nb)
+        })();
+        return btn;
+    }
+}
+// get touit
 
 let xhttp = new XMLHttpRequest()
 xhttp.onreadystatechange = ()=>{
@@ -138,3 +156,38 @@ document.getElementById('form_add_touit').addEventListener('submit',e=>{
         xhttp.send(formData)
     }else alert("Les champs ne sont pas good :/");
 })
+
+
+// get Tranding
+
+let xhr = new XMLHttpRequest()
+xhr.onreadystatechange = ()=>{
+    if (xhr.readyState === 4 && xhr.status === 200) {
+            let res = JSON.parse(xhr.responseText)
+            const c = document.getElementsByClassName('list_top_trend')[0]
+            for (const key in res) {
+                if (res.hasOwnProperty(key)) {
+                    c.appendChild(new TopWord({name:key,nb:res[key]}).generateHtml())
+                }
+            }
+    }
+}
+xhr.open("GET","http://touiteur.cefim-formation.org/trending")
+xhr.send()
+
+// get iunfluenceurs
+
+// let xmlrequest = new XMLHttpRequest()
+// xmlrequest.onreadystatechange = ()=>{
+//     if (xmlrequest.readyState === 4 && xmlrequest.status === 200) {
+//             let res = JSON.parse(xmlrequest.responseText)
+//             const c = document.getElementsByClassName('list_top_trend')[0]
+//             for (const key in res) {
+//                 if (res.hasOwnProperty(key)) {
+//                     c.appendChild(new TopWord({name:key,nb:res[key]}).generateHtml())
+//                 }
+//             }
+//     }
+// }
+// xmlrequest.open("GET","http://touiteur.cefim-formation.org/trending")
+// xmlrequest.send()
