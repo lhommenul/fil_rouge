@@ -159,10 +159,14 @@ class Card{
                 comment.innerText = e.comment;
                 li.appendChild(p)
                 li.appendChild(comment)
+                li.className = "comment" // set className
                 // append  
-                console.log(li);
                 list.appendChild(li)
-            })
+            });
+            // Ajouter un espace commentaire
+            (()=>{
+                
+            })();
             container.appendChild(list)
         })();
     }
@@ -195,9 +199,11 @@ function getTouits() {
     xhttp.onreadystatechange = ()=>{
         if (xhttp.readyState === 4 && xhttp.status === 200) {
             const cont = document.getElementsByClassName('cards_list_container')[0];
-            JSON.parse(xhttp.responseText).messages.reverse().forEach(element=>{
-                cont.appendChild(new Card(element).generateHtml())
-            })
+            let i = JSON.parse(xhttp.responseText).messages.reverse()
+            for (let index = 0; index < 50; index++) {
+                const element = i[index];
+                cont.appendChild(new Card(element).generateHtml())   
+            }
         }
     }
     xhttp.open("GET","http://touiteur.cefim-formation.org/list")
@@ -282,7 +288,7 @@ function getMostTouitLike(count=1) {
     xhr.send()
 }
 
-// ====== GET TOUIT COMMENT ======
+// ====== SEND COMMENT ======
 // sendComment(8,"default name","default comment")
 function sendComment(message_id,name,comment) {
     let formData = new FormData();
