@@ -20,16 +20,39 @@ button{border: none;padding: 1em;}
     background-color: whitesmoke;
     place-content: center;
 }
+    .label_form_touit{
+        display: flex;
+        flex-direction: column;
+    }
     .trend{
         height: 3em;
         width: 3em;
         background-color: rgb(201, 201, 201);
         border-radius: 50%;
         grid-row: 1;
-        display: flex;
     }
     .trend:nth-child(2n+0){
         background-color: black;
         color: white;
         grid-row: 2;
     }
+
+/* ===> FLOATING SECTION <=== */
+.floating_section{
+    background-color: whitesmoke;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+    .form_bot{
+        display: grid;
+        grid-template-rows: auto 1fr;
+        grid-template-columns: auto auto auto;
+    }
+        .label_form_touit{
+            grid-row: 1;
+        }
+        .label_form_msg{
+            grid-row: 2;
+        }

@@ -4,7 +4,6 @@ import {getTranding} from "./req.mjs"
 
 
 
-
 (async ()=>{
     const container = document.getElementsByClassName('trends')[0];
         getTranding.then(data=>{            
@@ -29,7 +28,6 @@ import {getTranding} from "./req.mjs"
                         container.appendChild(li)
                     })();
                 })();
-                // console.log(`obj.${pr} = ${data[pr]}`);
             }
         });
 })();
