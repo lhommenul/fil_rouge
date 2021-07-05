@@ -11,18 +11,25 @@ button{border: none;padding: 1em;}
 /* ================================================================= */
 
 
-.form_new{
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    background-color: whitesmoke;   
-    table-layout: -1;
+
+/* TRENDS */
+.trends{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    background-color: whitesmoke;
+    place-content: center;
 }
-    .labe_new{
-
+    .trend{
+        height: 3em;
+        width: 3em;
+        background-color: rgb(201, 201, 201);
+        border-radius: 50%;
+        grid-row: 1;
+        display: flex;
     }
-    .input_new{
-
+    .trend:nth-child(2n+0){
+        background-color: black;
+        color: white;
+        grid-row: 2;
     }
