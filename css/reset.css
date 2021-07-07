@@ -10,8 +10,6 @@ body{padding:0px; margin:0px;--invisible:rgba(0,0,0,0);}
 button{border: none;padding: 1em;}
 /* ================================================================= */
 
-
-
 /* TRENDS */
 .trends{
     display: grid;
@@ -71,15 +69,16 @@ button{border: none;padding: 1em;}
         grid-column: 2;
         grid-row: 2;
         height: auto;
-        max-height: 400px;
         box-shadow: 3px 3px 6px grey;
         width: auto;
-        max-width: 400px;
+        /* max-height: 400px;
+        max-width: 400px; */
         border-radius: 1.5em;
         text-align: center;
         background-color: whitesmoke;
         animation: identifier 0.3s;
         opacity: 0.5;
+        padding: 2em;
     }
     .selected_touit{
         opacity: 1;
