@@ -157,7 +157,8 @@ let getTouitComment = (message_id)=>{
 
 
 
-let createBubble = (data)=>{
+let createBubble = (data,active_user)=>{
+    console.log(active_user);
     // CREATE BUBBLE
     let li = document.createElement('li'),
         likes = document.createElement('span'),

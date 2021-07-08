@@ -44,11 +44,13 @@ import { getTouits,
 // GET TOUITS
 (async ()=>{
     const container = document.getElementsByClassName('touits')[0];
-        getTouits.then(data=>{    
-            JSON.parse(data).messages.reverse().map((msg)=>{
-               container.appendChild(createBubble(msg)) 
-            });
-        });
+        getMostActiveUser().then((users)=>{
+            getTouits.then(data=>{    
+                JSON.parse(data).messages.reverse().map((msg)=>{
+                   container.appendChild(createBubble(msg,users)) 
+                });
+            })
+        })
 })();
 
 
@@ -63,7 +65,7 @@ document.querySelector('#send_btn').addEventListener('click',()=>{
             const container = document.getElementsByClassName('touits')[0];
             container.insertBefore(createBubble({likes:0,
                 name:name,
-                message:message,id:res.id}),container.firstChild)
+                message:message,id:res.id},getMostActiveUser()),container.firstChild)
         }
     })
 })
