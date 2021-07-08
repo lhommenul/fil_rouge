@@ -58,11 +58,14 @@ document.querySelector('#send_btn').addEventListener('click',()=>{
     let name = document.querySelector("#id").value,
         message = document.querySelector("#message").value;
     sendTouit(name,message).then(res=>{
-        if (JSON.parse(res).success) {
+        res = JSON.parse(res)
+        if (res.success) {
             const container = document.getElementsByClassName('touits')[0];
             container.insertBefore(createBubble({likes:0,
                 name:name,
-                message:message}),container.firstChild)
+                message:message,id:res.id}),container.firstChild)
         }
     })
 })
+
+// 

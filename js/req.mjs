@@ -185,5 +185,14 @@ let createBubble = (data)=>{
         li.appendChild(name)
         li.appendChild(message)
     })();       
+    // event
+    (()=>{
+        li.addEventListener('click',()=>{
+            getTouitComment(data.id)
+            .then(data=>{
+                console.log(JSON.parse(data));
+            })
+        })
+    })();
     return li
 }
