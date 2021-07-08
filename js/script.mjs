@@ -1,14 +1,15 @@
+
 import { getTouits,
     getTrending,
     getOneTouit,
     getMostActiveUser,
+    createBubble,
+    sendTouit,
     sendComment,
     getTouitComment} from "./req.mjs"
 // globalThis
 // go throw all msg
 
-
-import {Scroll} from './scroll.mjs'
 
 
 // GET TREND
@@ -40,46 +41,28 @@ import {Scroll} from './scroll.mjs'
             }
         });
 })();
-
+// GET TOUITS
 (async ()=>{
     const container = document.getElementsByClassName('touits')[0];
         getTouits.then(data=>{    
-            let current_index = 0;
-            const msg = JSON.parse(data).messages.map((msg)=>{
-                // CREATE BUBBLE
-                let li = document.createElement('li'),
-                    likes = document.createElement('span'),
-                        icon_like = document.createElement('img'),
-                    name = document.createElement('p'),
-                    message = document.createElement('p');
-                (()=>{
-                    li.className = "touit"
-                })();
-                // Set Data
-                (()=>{
-                    // comments_count: 1
-                    // id: "10"
-                    // ip: "90.63.116.81"
-                    // likes: 2216
-                    // message: "defined"
-                    // name: "defined"
-                    // ts: 1622627971
-                    likes.innerText = msg.likes;
-                    icon_like
-                    name.innerText = msg.name
-                    message.innerText = msg.message
-                })();
-                // Append
-                (()=>{
-                    li.appendChild(likes)
-                        likes.appendChild(icon_like)
-                    li.appendChild(name)
-                    li.appendChild(message)
-                    container.appendChild(li)
-                })();       
-                return {data:msg,element:li}
+            JSON.parse(data).messages.reverse().map((msg)=>{
+               container.appendChild(createBubble(msg)) 
             });
-            msg[0]?.element?.classList?.add("selected_touit");
-            current_index = Scroll(msg,current_index)
         });
 })();
+
+
+
+// send touits
+document.querySelector('#send_btn').addEventListener('click',()=>{
+    let name = document.querySelector("#id").value,
+        message = document.querySelector("#message").value;
+    sendTouit(name,message).then(res=>{
+        if (JSON.parse(res).success) {
+            const container = document.getElementsByClassName('touits')[0];
+            container.insertBefore(createBubble({likes:0,
+                name:name,
+                message:message}),container.firstChild)
+        }
+    })
+})

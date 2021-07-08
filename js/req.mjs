@@ -4,7 +4,9 @@ export {
     getOneTouit,
     getMostActiveUser,
     sendComment,
-    getTouitComment
+    sendTouit,
+    getTouitComment,
+    createBubble
 }
 // ====== GET TOUIT ======
 let getTouits = new Promise((resolve,reject) => {
@@ -151,4 +153,37 @@ let getTouitComment = (message_id)=>{
             reject(error)
         }
     })
+}
+
+
+
+let createBubble = (data)=>{
+    // CREATE BUBBLE
+    let li = document.createElement('li'),
+        likes = document.createElement('span'),
+        name = document.createElement('p'),
+        message = document.createElement('p');
+    (()=>{
+        li.className = "touit"
+    })();
+        // Set Data
+    (()=>{
+        // comments_count: 1
+        // id: "10"
+        // ip: "90.63.116.81"
+        // likes: 2216
+        // message: "defined"
+        // name: "defined"
+        // ts: 1622627971
+        likes.innerText = data.likes; 
+        name.innerText = data.name;
+        message.innerText = data.message;
+    })();
+    // Append
+    (()=>{
+        li.appendChild(likes)
+        li.appendChild(name)
+        li.appendChild(message)
+    })();       
+    return li
 }

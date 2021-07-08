@@ -59,29 +59,13 @@ button{border: none;padding: 1em;}
 .touits{
     height: 90vh;
     width: 90vw;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-rows: auto 1fr auto
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
     .touit{
-        place-self: center;
-        overflow: hidden;
-        grid-column: 2;
-        grid-row: 2;
-        height: auto;
         box-shadow: 3px 3px 6px grey;
-        width: auto;
-        /* max-height: 400px;
-        max-width: 400px; */
-        border-radius: 1.5em;
-        text-align: center;
-        background-color: whitesmoke;
-        animation: identifier 0.3s;
-        opacity: 0.5;
         padding: 2em;
-    }
-    .selected_touit{
-        opacity: 1;
-        z-index: 1;
-        transform: scale(1.5);
     }
