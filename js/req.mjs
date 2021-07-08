@@ -158,7 +158,6 @@ let getTouitComment = (message_id)=>{
 
 
 let createBubble = (data,active_user)=>{
-    console.log(active_user);
     // CREATE BUBBLE
     let li = document.createElement('li'),
         likes = document.createElement('span'),
@@ -166,6 +165,10 @@ let createBubble = (data,active_user)=>{
         message = document.createElement('p');
     (()=>{
         li.className = "touit"
+        for (const a in active_user.influencers) {
+            if (a === data.name) li.classList.add("top")
+        }
+        // li.classList.add('top')
     })();
         // Set Data
     (()=>{

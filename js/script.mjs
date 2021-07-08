@@ -15,8 +15,7 @@ import { getTouits,
 // GET TREND
 (async ()=>{
     const container = document.getElementsByClassName('trends')[0];
-        getTrending.then(data=>{    
-            console.log(data);        
+        getTrending.then(data=>{     
             for (const pr in data) {
                 // CREATE BUBBLE
                 (()=>{
@@ -45,6 +44,7 @@ import { getTouits,
 (async ()=>{
     const container = document.getElementsByClassName('touits')[0];
         getMostActiveUser().then((users)=>{
+            users = JSON.parse(users)
             getTouits.then(data=>{    
                 JSON.parse(data).messages.reverse().map((msg)=>{
                    container.appendChild(createBubble(msg,users)) 
@@ -63,9 +63,11 @@ document.querySelector('#send_btn').addEventListener('click',()=>{
         res = JSON.parse(res)
         if (res.success) {
             const container = document.getElementsByClassName('touits')[0];
-            container.insertBefore(createBubble({likes:0,
-                name:name,
-                message:message,id:res.id},getMostActiveUser()),container.firstChild)
+            getMostActiveUser().then(e=>{
+                container.insertBefore(createBubble({likes:0,
+                    name:name,
+                    message:message,id:res.id}, JSON.parse(e)),container.firstChild)
+            })
         }
     })
 })

@@ -69,3 +69,6 @@ button{border: none;padding: 1em;}
         box-shadow: 3px 3px 6px grey;
         padding: 2em;
     }
+    .top{
+        background-color: red;
+    }
