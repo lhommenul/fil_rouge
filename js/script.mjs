@@ -6,6 +6,7 @@ import { getTouits,
     createBubble,
     sendTouit,
     sendComment,
+    likeTouit,
     getTouitComment} from "./req.mjs"
 // globalThis
 // go throw all msg
@@ -73,3 +74,4 @@ document.querySelector('#send_btn').addEventListener('click',()=>{
 })
 
 // 
+

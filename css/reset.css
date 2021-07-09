@@ -72,3 +72,9 @@ button{border: none;padding: 1em;}
     .top{
         background-color: red;
     }
+    .img_touit{
+        max-height: 3em;
+    }
+    .dsq{
+        visibility: hidden;
+    }

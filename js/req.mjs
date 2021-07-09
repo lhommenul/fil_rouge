@@ -9,6 +9,21 @@ export {
     createBubble,
     likeTouit
 }
+let observer = new IntersectionObserver((entries)=>{
+    entries.forEach(observ=>{
+        if (observ.intersectionRatio > 0.5) {
+            observ.target.children[0].src = `http://touiteur.cefim-formation.org/avatar/get?username=${observ.target.children[2].textContent}`
+            observ.target.classList.add("touit")
+            observ.target.classList.remove("dsq")
+            //observer.unobserve(observ.target)
+        }else{
+            observ.target.classList.add("dsq")
+        }
+    })
+    
+},{
+    threshold:[0.5]
+})
 // ====== GET TOUIT ======
 let getTouits = new Promise((resolve,reject) => {
     try {
@@ -182,6 +197,7 @@ let createBubble = (data,active_user)=>{
     // CREATE BUBBLE
     let li = document.createElement('li'),
         likes = document.createElement('span'),
+        img = document.createElement('img'),
         name = document.createElement('p'),
         button_like = document.createElement('button'),
         button_comment = document.createElement('button'),
@@ -191,13 +207,6 @@ let createBubble = (data,active_user)=>{
         form_btn = document.createElement('button'),
         comment = document.createElement('ul'),
         message = document.createElement('p');
-    (()=>{
-        li.className = "touit"
-        for (const a in active_user.influencers) {
-            if (a === data.name) li.classList.add("top")
-        }
-        // li.classList.add('top')
-    })();
         // Set Data
     (()=>{
         // comments_count: 1
@@ -207,6 +216,8 @@ let createBubble = (data,active_user)=>{
         // message: "defined"
         // name: "defined"
         // ts: 1622627971
+        // img.src = `http://touiteur.cefim-formation.org/avatar/get?username=${data.name}`
+        img.className = "img_touit"
         button_like.textContent = "like"
         button_comment.textContent = "comment"
         likes.textContent = data.likes; 
@@ -216,6 +227,7 @@ let createBubble = (data,active_user)=>{
     })();
     // Append
     (()=>{
+        li.appendChild(img)
         li.appendChild(likes)
         li.appendChild(name)
         li.appendChild(message)
@@ -225,7 +237,9 @@ let createBubble = (data,active_user)=>{
         form.appendChild(form_name)
         form.appendChild(form_textarea)
         form.appendChild(form_btn)
-        li.appendChild(comme nt)
+        li.appendChild(comment)
+        li.classList.add("dsq")
+        observer.observe(li)
     })();       
     // event
     (()=>{
