@@ -77,9 +77,9 @@ document.querySelector('#send_btn').addEventListener('click',()=>{
 checkInput('id',16);
 checkInput('message',256);
 function checkInput(id,max) {
-    foc.addEventListener('input',(e)=>{
+    document.getElementById(id).addEventListener('input',(e)=>{
         if (e.target.value.length > max) {
-            console.log("supp");
+            e.target.value = e.target.value.slice(0,max)
         }
     })
     
