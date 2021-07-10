@@ -9,13 +9,13 @@ export {
     createBubble,
     likeTouit
 }
-let observer = new IntersectionObserver((entries)=>{
-    entries.forEach(observ=>{
+let observer = new IntersectionObserver((ent)=>{
+    ent.forEach(observ=>{
         if (observ.intersectionRatio > 0.5) {
             observ.target.children[0].src = `http://touiteur.cefim-formation.org/avatar/get?username=${observ.target.children[2].textContent}`
             observ.target.classList.add("touit")
             observ.target.classList.remove("dsq")
-            //observer.unobserve(observ.target)
+            // observer.unobserve(observ.target)
         }else{
             observ.target.classList.add("dsq")
         }
@@ -245,22 +245,18 @@ let createBubble = (data,active_user)=>{
     (()=>{
         // open comment space
         button_comment.addEventListener('click',()=>{
-            getTouitComment(data.id)
-            .then(data=>{
-                JSON.parse(data).comments.forEach(v=>{
-                    const li_c = document.createElement('li'),
-                        name_c = document.createElement('p'),
-                        p_c = document.createElement('p');
-                    name_c.innerText = v.name;
-                    p_c.innerText = v.comment;
-                    // Append
-                    (()=>{
-                        li_c.appendChild(name_c)
-                        li_c.appendChild(p_c)
-                        comment.appendChild(li_c)
-                    })();
+            if (!comment.hasChildNodes()) {                
+                getTouitComment(data.id)
+                .then(data=>{
+                    JSON.parse(data).comments.forEach(v=>{
+                        comment.appendChild(createComment(v))
+                    })
                 })
-            })
+            }else{
+                while (comment.hasChildNodes()) {
+                    comment.firstChild.remove()
+                }
+            }
         })
         // like touit
         button_like.addEventListener('click',()=>{
@@ -273,10 +269,32 @@ let createBubble = (data,active_user)=>{
         //envoyer comment
         form.addEventListener('submit',e=>{
             e.preventDefault();
+            if (!comment.hasChildNodes()) {  
+                console.log("here");              
+                getTouitComment(data.id)
+                .then(data=>{
+                    JSON.parse(data).comments.forEach(v=>{
+                        comment.appendChild(createComment(v))
+                    })
+                })
+            }
             sendComment(data.id,form_name.value,form_textarea.value).then(res=>{
-                console.log(res);
+                comment.appendChild(createComment({name:form_name.value,comment:form_textarea.value}))
             })
         })
+        function createComment(v) {
+            const li_c = document.createElement('li'),
+            name_c = document.createElement('p'),
+            p_c = document.createElement('p');
+            name_c.innerText = v.name;
+            p_c.innerText = v.comment;
+            // Append
+            (()=>{
+                li_c.appendChild(name_c)
+                li_c.appendChild(p_c)
+            })();
+            return li_c;
+        }
     })();
     return li;
 }
