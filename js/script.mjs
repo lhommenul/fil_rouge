@@ -73,5 +73,14 @@ document.querySelector('#send_btn').addEventListener('click',()=>{
     })
 })
 
-// 
-
+// check Input 
+checkInput('id',16);
+checkInput('message',256);
+function checkInput(id,max) {
+    foc.addEventListener('input',(e)=>{
+        if (e.target.value.length > max) {
+            console.log("supp");
+        }
+    })
+    
+}
