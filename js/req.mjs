@@ -60,6 +60,7 @@ let likeTouit = (message_id)=>{
     })
 }
 
+
 // ====== SEND TOUIT ======
 let sendTouit = (inp_nickname,inp_text_area_send_message)=>{
     return new Promise((resolve,reject)=>{
@@ -222,6 +223,9 @@ let createBubble = (data,active_user)=>{
         button_comment.textContent = "comment"
         likes.textContent = data.likes; 
         name.textContent = data.name;
+        if (active_user.influencers[data.name] != undefined) {
+            console.log("top inf");
+        };
         form_btn.textContent = "envoyer";
         message.textContent = data.message;
     })();

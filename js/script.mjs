@@ -16,7 +16,8 @@ import { getTouits,
 // GET TREND
 (async ()=>{
     const container = document.getElementsByClassName('trends')[0];
-        getTrending.then(data=>{     
+        getTrending.then(data=>{    
+            console.log(data); 
             for (const pr in data) {
                 // CREATE BUBBLE
                 (()=>{
