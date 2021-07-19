@@ -88,6 +88,27 @@ let likeTouit = (message_id)=>{
     })
 }
 
+// ====== REMOVE LIKE TOUIT ======
+let removeLikeTouit = (message_id)=>{
+    return new Promise((resolve,reject) => {
+        try {
+            let xhttp = new XMLHttpRequest();
+            let formData = new FormData();
+            formData.append("message_id",message_id)
+            xhttp.onreadystatechange = ()=>{
+                if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    resolve(xhttp.responseText);
+                }
+            }
+            xhttp.open("DELETE",`http://touiteur.cefim-formation.org/likes/remove`)
+            xhttp.send(formData)
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+
 
 // ====== SEND TOUIT ======
 let sendTouit = (inp_nickname,inp_text_area_send_message)=>{
@@ -287,11 +308,42 @@ let createBubble = (data,active_user)=>{
         })
         // like touit
         button_like.addEventListener('click',()=>{
-            likeTouit(data.id).then(e=>{
-                if (JSON.parse(e).success) {
-                    likes.innerText = parseInt(likes.innerText)+1;
+            let like = ()=>{
+                setCookie(data.id,true,6000)
+                likeTouit(data.id).then(e=>{
+                    if (JSON.parse(e).success) {
+                        likes.innerText = parseInt(likes.innerText)+1;
+                    }
+                })
+            }
+            let remove = ()=>{
+                setCookie(data.id,false,6000)
+                removeLikeTouit(data.id).then(()=>{
+                    likes.innerText = parseInt(likes.innerText)-1;
+                });
+            }
+            getCookie(data.id)!='true'?like():remove();
+            function getCookie(cname) {
+                let name = cname + "=";
+                let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = decodedCookie.split(';');
+                for(let i = 0; i <ca.length; i++) {
+                  let c = ca[i];
+                  while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                  }
+                  if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                  }
                 }
-            })
+                return "";
+              }
+              function setCookie(cname, cvalue, exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                let expires = "expires="+ d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+              }
         })
         //envoyer comment
         form.addEventListener('submit',e=>{

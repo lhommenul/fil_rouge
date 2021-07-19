@@ -70,6 +70,10 @@ button{border: none;padding: 1em;}
         padding: 2em;
         animation: tran 1s;
     }
+        .touit li{
+            box-shadow: 2px 2px 6px grey;
+            margin-bottom: 0.2em;
+        }
     .top{
         background-color: red;
     }
