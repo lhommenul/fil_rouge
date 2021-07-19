@@ -79,3 +79,7 @@ button{border: none;padding: 1em;}
     .dsq{
         visibility: hidden;
     }
+
+.top_inf{
+    background-color: grey;
+}

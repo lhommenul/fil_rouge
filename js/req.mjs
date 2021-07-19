@@ -12,13 +12,41 @@ export {
 let observer = new IntersectionObserver((ent)=>{
     ent.forEach(observ=>{
         if (observ.intersectionRatio > 0.5) {
+            let ic_id= observ.target.getAttribute('data-c-id');
+            getOneTouit(ic_id).then(data=>{
+                observ.target.children[1].textContent = JSON.parse(data).data.comments_count;
+                const eps_com = observ.target.children[7];            
+                getTouitComment(ic_id)
+                .then(data=>{
+                    while (eps_com.hasChildNodes()) {
+                        eps_com.firstChild.remove()
+                    }
+                    JSON.parse(data).comments.forEach(v=>{
+                        eps_com.appendChild(createComment(v))
+                    })
+                })
+                function createComment(v) {
+                    const li_c = document.createElement('li'),
+                    name_c = document.createElement('p'),
+                    p_c = document.createElement('p');
+                    name_c.innerText = v.name;
+                    p_c.innerText = v.comment;
+                    // Append
+                    (()=>{
+                        li_c.appendChild(name_c)
+                        li_c.appendChild(p_c)
+                    })();
+                    return li_c;
+                }
+            })
+            .catch(err=>{
+                console.error(err);
+            })
             observ.target.children[0].src = `http://touiteur.cefim-formation.org/avatar/get?username=${observ.target.children[2].textContent}`
             observ.target.classList.add("touit")
             observ.target.classList.remove("dsq")
             // observer.unobserve(observ.target)
-        }else{
-            observ.target.classList.add("dsq")
-        }
+        }else observ.target.classList.add("dsq");
     })
     
 },{
@@ -174,6 +202,8 @@ let sendComment = (message_id,name,comment)=> {
     })
 }
 
+// 
+
 // ====== GET TOUIT COMMENT ======
 let getTouitComment = (message_id)=>{
     return new Promise((resolve,reject)=>{
@@ -210,22 +240,15 @@ let createBubble = (data,active_user)=>{
         message = document.createElement('p');
         // Set Data
     (()=>{
-        // comments_count: 1
-        // id: "10"
-        // ip: "90.63.116.81"
-        // likes: 2216
-        // message: "defined"
-        // name: "defined"
-        // ts: 1622627971
-        // img.src = `http://touiteur.cefim-formation.org/avatar/get?username=${data.name}`
+        li.setAttribute('data-c-id',data.id)
         img.className = "img_touit"
         button_like.textContent = "like"
         button_comment.textContent = "comment"
         likes.textContent = data.likes; 
         name.textContent = data.name;
-        if (active_user.influencers[data.name] != undefined) {
-            console.log("top inf");
-        };
+        if (active_user.influencers[data.name] != undefined) li.classList.add('top_inf');
+        else li?.classList?.remove('top_inf');
+            
         form_btn.textContent = "envoyer";
         message.textContent = data.message;
     })();
