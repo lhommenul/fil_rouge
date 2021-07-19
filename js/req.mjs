@@ -249,8 +249,8 @@ let createBubble = (data,active_user)=>{
     // CREATE BUBBLE
     let li = document.createElement('li'),
         likes = document.createElement('span'),
+        comments = document.createElement('span'),
         img = document.createElement('img'),
-        name = document.createElement('p'),
         button_like = document.createElement('button'),
         button_comment = document.createElement('button'),
         form = document.createElement('form'),
@@ -261,12 +261,13 @@ let createBubble = (data,active_user)=>{
         message = document.createElement('p');
         // Set Data
     (()=>{
+        console.log(data);
         li.setAttribute('data-c-id',data.id)
         img.className = "img_touit"
         button_like.textContent = "like"
         button_comment.textContent = "comment"
+        comments.textContent = data.comments_count
         likes.textContent = data.likes; 
-        name.textContent = data.name;
         if (active_user.influencers[data.name] != undefined) li.classList.add('top_inf');
         else li?.classList?.remove('top_inf');
         form_btn.textContent = "envoyer";
@@ -275,11 +276,11 @@ let createBubble = (data,active_user)=>{
     // Append
     (()=>{
         li.appendChild(img)
-        li.appendChild(likes)
-        li.appendChild(name)
-        li.appendChild(message)
+        button_like.appendChild(likes)
         li.appendChild(button_like)
+        li.appendChild(message)
         li.appendChild(button_comment)
+        button_comment.appendChild(comments)
         li.appendChild(form)
         form.appendChild(form_name)
         form.appendChild(form_textarea)
