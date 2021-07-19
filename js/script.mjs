@@ -56,7 +56,6 @@ import { getTouits,
 })();
 
 
-
 // send touits
 document.querySelector('#send_btn').addEventListener('click',()=>{
     let name = document.querySelector("#id").value,
