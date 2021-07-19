@@ -53,20 +53,22 @@ let observer = new IntersectionObserver((ent)=>{
     threshold:[0.5]
 })
 // ====== GET TOUIT ======
-let getTouits = new Promise((resolve,reject) => {
-    try {
-        let xhttp = new XMLHttpRequest()
-        xhttp.onreadystatechange = ()=>{
-            if (xhttp.readyState === 4 && xhttp.status === 200) {
-                resolve(xhttp.responseText);
+let getTouits = (ts=0)=>{
+    return new Promise((resolve,reject) => {
+        try {
+            let xhttp = new XMLHttpRequest()
+            xhttp.onreadystatechange = ()=>{
+                if (xhttp.readyState === 4 && xhttp.status === 200) {
+                    resolve(xhttp.responseText);
+                }
             }
+            xhttp.open("GET",`http://touiteur.cefim-formation.org/list?ts=${ts}`)
+            xhttp.send()
+        } catch (error) {
+            reject(error);
         }
-        xhttp.open("GET","http://touiteur.cefim-formation.org/list")
-        xhttp.send()
-    } catch (error) {
-        reject(error);
-    }
-})
+    })
+}
 
 // ====== LIKE TOUIT ======
 let likeTouit = (message_id)=>{
@@ -88,8 +90,6 @@ let likeTouit = (message_id)=>{
     })
 }
 
-<<<<<<< HEAD
-=======
 // ====== REMOVE LIKE TOUIT ======
 let removeLikeTouit = (message_id)=>{
     return new Promise((resolve,reject) => {
@@ -109,9 +109,6 @@ let removeLikeTouit = (message_id)=>{
         }
     })
 }
-
-
->>>>>>> c487566b9052707d33e989390aafa5a54415955e
 
 // ====== SEND TOUIT ======
 let sendTouit = (inp_nickname,inp_text_area_send_message)=>{
@@ -272,7 +269,6 @@ let createBubble = (data,active_user)=>{
         name.textContent = data.name;
         if (active_user.influencers[data.name] != undefined) li.classList.add('top_inf');
         else li?.classList?.remove('top_inf');
-            
         form_btn.textContent = "envoyer";
         message.textContent = data.message;
     })();
@@ -314,6 +310,7 @@ let createBubble = (data,active_user)=>{
             let like = ()=>{
                 setCookie(data.id,true,6000)
                 likeTouit(data.id).then(e=>{
+                    console.log(e);
                     if (JSON.parse(e).success) {
                         likes.innerText = parseInt(likes.innerText)+1;
                     }

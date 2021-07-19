@@ -45,15 +45,25 @@ import { getTouits,
 // GET TOUITS
 (async ()=>{
     const container = document.getElementsByClassName('touits')[0];
+    let ts= 0;
+    start()
+    setInterval(() => {
+        ts = Date.now();
+        start()
+    }, 5000);
+    function start() {
         getMostActiveUser().then((users)=>{
             users = JSON.parse(users)
-            getTouits.then(data=>{    
+            getTouits(ts).then(data=>{   
+                console.log(data); 
                 JSON.parse(data).messages.reverse().map((msg)=>{
                    container.appendChild(createBubble(msg,users)) 
                 });
             })
         })
+    }
 })();
+
 
 
 // send touits
