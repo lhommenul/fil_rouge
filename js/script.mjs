@@ -94,3 +94,8 @@ function checkInput(id,max) {
     })
     
 }
+
+
+document.querySelector('#sum').addEventListener('click',e=>{
+    
+})

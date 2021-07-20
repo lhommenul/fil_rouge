@@ -265,9 +265,10 @@ let createBubble = (data,active_user)=>{
         li.setAttribute('data-c-id',data.id)
         img.className = "img_touit"
         button_like.textContent = "like"
+        button_like.className = "like_btn"
         button_comment.textContent = "comment"
         comments.textContent = data.comments_count
-        likes.textContent = data.likes; 
+        likes.innerText = data.likes; 
         if (active_user.influencers[data.name] != undefined) li.classList.add('top_inf');
         else li?.classList?.remove('top_inf');
         form_btn.textContent = "envoyer";
@@ -276,7 +277,6 @@ let createBubble = (data,active_user)=>{
     // Append
     (()=>{
         li.appendChild(img)
-        button_like.appendChild(likes)
         li.appendChild(button_like)
         li.appendChild(message)
         li.appendChild(button_comment)
@@ -308,19 +308,21 @@ let createBubble = (data,active_user)=>{
         })
         // like touit
         button_like.addEventListener('click',()=>{
+            console.log("click");
             let like = ()=>{
                 setCookie(data.id,true,6000)
                 likeTouit(data.id).then(e=>{
                     console.log(e);
                     if (JSON.parse(e).success) {
-                        likes.innerText = parseInt(likes.innerText)+1;
+                        console.log(parseInt(likes.innerText)+1);
+                        button_like.innerText = parseInt(button_like.innerText)+1;
                     }
                 })
             }
             let remove = ()=>{
                 setCookie(data.id,false,6000)
                 removeLikeTouit(data.id).then(()=>{
-                    likes.innerText = parseInt(likes.innerText)-1;
+                    button_like.innerText = parseInt(button_like.innerText)-1;
                 });
             }
             getCookie(data.id)!='true'?like():remove();
